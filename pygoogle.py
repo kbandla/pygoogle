@@ -56,29 +56,32 @@ class pygoogle:
         self.pages = pages          #Number of pages. default 10
         self.query = query
         self.filter = 1             #Controls turning on or off the duplicate content filter. On = 1.
-        self.rsz = 'large'          #Results per page. small = 4 /large = 8
-        self.safe = 'off'           #SafeBrowsing -  active/moderate/off
+        self.rsz = RSZ_LARGE        #Results per page. small = 4 /large = 8
+        self.safe = SAFE_OFF        #SafeBrowsing -  active/moderate/off
         
     def __search__(self,print_results = False):
         results = []
         for page in range(0,self.pages):
+            rsz = 8
+            if self.rsz == RSZ_SMALL:
+                rsz = 4
             args = {'q' : self.query,
                     'v' : '1.0',
-                    'start' : page,
-                    'rsz': RSZ_LARGE,
-                    'safe' : SAFE_OFF, 
-                    'filter' : FILTER_ON,    
+                    'start' : page*rsz,
+                    'rsz': self.rsz,
+                    'safe' : self.safe, 
+                    'filter' : self.filter,    
                     }
             q = urllib.urlencode(args)
             search_results = urllib.urlopen(URL+q)
             data = json.loads(search_results.read())
             if print_results:
-                for result in  data['responseData']['results']:
-                    #print result
-                    if result:
-                        print '[%s]'%(urllib.unquote(result['titleNoFormatting']))
-                        print result['content'].strip("<b>...</b>").replace("<b>",'').replace("</b>",'').replace("&#39;","'").strip()
-                        print urllib.unquote(result['unescapedUrl'])+'\n'                
+                if data['responseStatus'] == 200:
+                    for result in  data['responseData']['results']:
+                        if result:
+                            print '[%s]'%(urllib.unquote(result['titleNoFormatting']))
+                            print result['content'].strip("<b>...</b>").replace("<b>",'').replace("</b>",'').replace("&#39;","'").strip()
+                            print urllib.unquote(result['unescapedUrl'])+'\n'                
             results.append(data)
         return results
     
