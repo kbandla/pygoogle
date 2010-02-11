@@ -1,6 +1,6 @@
 '''
 Created on Feb 9, 2010
-
+Google Trends module. 
 @author: kbandla
 '''
 import urllib
