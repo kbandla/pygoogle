@@ -1,6 +1,6 @@
 '''
 Created on Feb 9, 2010
-Google Trends module. 
+
 @author: kbandla
 '''
 import urllib
@@ -69,6 +69,6 @@ class pytrends():
         return URL_VIZ_GRAPH+q
     
 if __name__ == "__main__":
-    x = pyTrends()
+    x = pytrends()
     print x.trends_by_date('2009-1-1')
     print x.trends_graph('craig ferguson twitter', '2010-02-08')
