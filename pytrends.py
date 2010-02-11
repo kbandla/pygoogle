@@ -55,7 +55,7 @@ class pytrends():
         soup = BeautifulSoup(data)
         trends = []
         for x in soup.findAll('a'):
-            trends.add( x.contents[0] )
+            trends.append( x.contents[0].encode('ascii') )
         return trends
     
     def trends_graph(self,query,date):
@@ -70,5 +70,6 @@ class pytrends():
     
 if __name__ == "__main__":
     x = pytrends()
-    print x.trends_by_date('2009-1-1')
-    print x.trends_graph('craig ferguson twitter', '2010-02-08')
+    print x.trends_current()
+    print x.trends_by_date('2010-2-11')
+    print x.trends_graph('alec baldwin hospital', '2010-02-11')
