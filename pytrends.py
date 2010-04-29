@@ -49,13 +49,13 @@ class pytrends():
         return keywords
 
     def trends_current(self):
-        """Returns a list of current Google Trends Keywords"""
+        """Returns a list of current Google Trends Keywords in unicode"""
         d = feedparser.parse(URL_RSS)
         data = d['entries'][0]['content'][0]['value']
         soup = BeautifulSoup(data)
         trends = []
         for x in soup.findAll('a'):
-            trends.append( x.contents[0].encode('ascii') )
+            trends.append( x.contents[0] )
         return trends
     
     def trends_graph(self,query,date):
